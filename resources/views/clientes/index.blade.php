@@ -2,16 +2,7 @@
 
 @section('content')
     <div class="container">
-        <div class="row container-fluid">
-            <form class="form-caption caption-top" autocomplete="off" method="GET" action="{{route('clientes.index')}}">
-                <div class="alert alert-info d-flex flex-row justify-content-between">
-                    <h2>Sistema de búsquedas</h2>
-                    <a href="{{url('/clientes')}}" class="btn btn-primary">Inicio</a>
-                </div>
-                @csrf
-                @include('partials/search-form', ['mode' => "Buscar", 'label' => 'Ingresa'])
-            </form>
-        </div>
+        @include('partials/search')
         <hr>
         <div class="alert alert-info d-flex flex-row justify-content-between">
             <h2>{{$title}}</h2>

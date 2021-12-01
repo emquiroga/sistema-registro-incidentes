@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\Paginator;
+
 
 class ClienteController extends Controller
 {
@@ -18,19 +21,16 @@ class ClienteController extends Controller
         $razonSocialSearch = $request->get('razon_social');
         $cuitSearch = $request->get('cuit');
         //La DB debería ir en Models
-        $filter = DB::table('clientes')
+        $clientes = DB::table('clientes')
             ->where('razon_social', 'like', "%{$razonSocialSearch}%")
             ->orWhere('cuit', 'like', "{$cuitSearch}%")
-            ->get();
-
-        $clientes['clientes'] = Cliente::paginate(5);
-
+            ->paginate(20);
         $params = [
-            'title' => 'Planilla de Clientes'
+            'clientes' => $clientes,
+            'title' => 'Listado de clientes'
         ];
-        return view('clientes.index', $params, $clientes);
+        return view('clientes.index', $params);
     }
-
     /**
      * Show the form for creating a new resource.
      *
