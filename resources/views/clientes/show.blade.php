@@ -1,28 +1,27 @@
-<!DOCTYPE html>
-<html lang="es">
-@include ('partials/head')
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <h3 class="navbar-brand">{{$title}}</h3>
-            <a href="{{url('/clientes')}}" class="btn btn-success">Volver al inicio</a>
+@extends('layouts.app')
+
+@section('content')
+    <div class="container justify-content-center">
+        <div class="container-fluid mt-3">
+            @if(Session::has('status'))
+            <div class="alert alert-warning" role="alert">
+                {{Session::get('status')}}
+            </div>
+            @endif
+            <div class="card">
+                <div class="card-header">
+                    <strong>Cliente</strong>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><strong>ID:</strong> {{$cliente->id}}</li>
+                  <li class="list-group-item"><strong>Razón social:</strong> {{$cliente->razon_social}}</li>
+                  <li class="list-group-item"><strong>CUIT:</strong> {{$cliente->cuit}}</li>
+                </ul>
+            </div>
         </div>
-    </nav>
-    @if(Session::has('status'))
-    <div class="alert alert-warning" role="alert">
-        {{Session::get('status')}}
-    </div>
-    @endif
-    <div class="card" style="width: 18rem;">
-        <div class="card-header">
-            <strong>Cliente</strong>
+        <div class="d-flex flex-row justify-content-end mt-3">
+            <a href="{{url('/clientes/' . $cliente->id . '/edit')}}"><button class="btn btn-warning mx-3">Editar</button></a>
+            <a href="{{url('/clientes')}}" class="btn btn-success mx-3">Volver</a>
         </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item"><strong>ID:</strong> {{$cliente->id}}</li>
-          <li class="list-group-item"><strong>Razón social:</strong> {{$cliente->razon_social}}</li>
-          <li class="list-group-item"><strong>CUIT:</strong> {{$cliente->cuit}}</li>
-        </ul>
-        <a href="{{url('/clientes/' . $cliente->id . "/edit")}}"><button class="btn btn-warning w-100">Editar</button></a>
     </div>
-</body>
-</html>
+@endsection

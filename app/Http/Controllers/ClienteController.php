@@ -26,7 +26,7 @@ class ClienteController extends Controller
         $clientes['clientes'] = Cliente::paginate(5);
 
         $params = [
-            'title' => 'Listado de clientes'
+            'title' => 'Planilla de Clientes'
         ];
         return view('clientes.index', $params, $clientes);
     }
@@ -52,10 +52,14 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validations = [
             'razon_social' => 'required|max:255',
             'cuit' => 'required|numeric'
-        ]);
+        ];
+        $message = [
+            'required' => 'El campo :attribute es obligatorio'
+        ];
+        $this->validate($request, $validations, $message);
         $razonSocial = $request->post('razon_social');
         $cuit = $request->post('cuit');
 
@@ -107,10 +111,15 @@ class ClienteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validations = [
             'razon_social' => 'required|max:255',
             'cuit' => 'required|numeric'
-        ]);
+        ];
+        $message = [
+            'required' => 'El campo :attribute es obligatorio'
+        ];
+        $this->validate($request, $validations, $message);
+
         $datos = request()->except(['_token', '_method']);
 
         Cliente::where('id', '=', $id)->update($datos);
